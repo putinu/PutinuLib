@@ -43,6 +43,15 @@ namespace PutinuLib.CommonView
             SetEvent();
         }
 
+        /// <summary>
+        /// スクリプトからボタン情報を設定するときに使用する初期化処理
+        /// </summary>
+        public void Initialize(CustomSelectableButton[] buttons, int startIndex)
+        {
+            _buttons = buttons;
+            Initialize(startIndex);
+        }
+
         private void SetEvent()
         {
             for (int i = 0; i < _buttons.Length; i++)

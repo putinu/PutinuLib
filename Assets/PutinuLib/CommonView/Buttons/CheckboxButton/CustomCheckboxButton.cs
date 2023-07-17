@@ -44,6 +44,15 @@ namespace PutinuLib.CommonView
         }
 
         /// <summary>
+        /// スクリプトからボタン情報を設定するときに使用する初期化処理
+        /// </summary>
+        public void Initialize(CustomSelectableButton[] buttons)
+        {
+            _buttons = buttons;
+            Initialize();
+        }
+
+        /// <summary>
         /// 対象のボタンのアクティブ状態をセットする
         /// </summary>
         public void SetButtonActive(int targetIndex, bool isActive)
