@@ -8,7 +8,7 @@ namespace PutinuLib.CommonView
     /// <summary>
     /// 複数のボタンから複数選択できるもの（チェックボックス）
     /// </summary>
-    public class CustomCheckboxButton : UIMonoBehaviour
+    public class CustomCheckbox : UIMonoBehaviour
     {
         [Header("それぞれの選択肢ボタン")]
         [SerializeField] private CustomSelectableButton[] _buttons;
