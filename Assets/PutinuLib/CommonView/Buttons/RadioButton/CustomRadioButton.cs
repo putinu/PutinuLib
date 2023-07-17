@@ -9,10 +9,23 @@ namespace PutinuLib.CommonView
     /// </summary>
     public class CustomRadioButton : UIMonoBehaviour
     {
+        // TODO: ボタン個数変更出来るようにしたいよな～ん
+        // SelectableButtonを外から入れれるような形にしてもいいかも
         [Header("それぞれの選択肢ボタン")]
         [SerializeField] private CustomSelectableButton[] _buttons;
 
         private int _beforeSelectedButtonIndex;
+        
+        /// <summary>
+        /// ボタンがアクティブ状態になった時にindexを返す
+        /// </summary>
+        public IObservable<int> OnButtonActivated => _buttonActivatedSubject;
+        private readonly Subject<int> _buttonActivatedSubject = new();
+
+        private void OnDestroy()
+        {
+            _buttonActivatedSubject.Dispose();
+        }
 
         /// <summary>
         /// 初期化処理を実行する
@@ -57,6 +70,14 @@ namespace PutinuLib.CommonView
         private void Deactivate(int targetIndex)
         {
             _buttons[targetIndex].SetSelected(false);
+        }
+
+        /// <summary>
+        /// 対象のボタンが選択されているかどうか
+        /// </summary>
+        public bool IsButtonSelected(int targetIndex)
+        {
+            return _buttons[targetIndex].IsSelectedRP.Value;
         }
     }
 }
