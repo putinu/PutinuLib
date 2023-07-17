@@ -1,5 +1,6 @@
 using System;
 using UniRx;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace PutinuLib.CommonView
@@ -45,7 +46,9 @@ namespace PutinuLib.CommonView
         private readonly Subject<Unit> _buttonReleasedSubject = new();
         private readonly Subject<Unit> _buttonEnteredSubject = new();
         private readonly Subject<Unit> _buttonExitedSubject = new();
-        private readonly ReactiveProperty<bool> _isActiveRP = new(true);
+        
+        [Header("ボタンのアクティブ状態")]
+        [SerializeField] private ReactiveProperty<bool> _isActiveRP = new(true);
 
         protected virtual void OnDestroy()
         {
@@ -54,6 +57,7 @@ namespace PutinuLib.CommonView
             _buttonReleasedSubject.Dispose();
             _buttonEnteredSubject.Dispose();
             _buttonExitedSubject.Dispose();
+            _isActiveRP.Dispose();
         }
 
         /// <summary>
