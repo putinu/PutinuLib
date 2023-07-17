@@ -1,6 +1,5 @@
 using System;
 using UniRx;
-using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace PutinuLib.CommonView
@@ -35,12 +34,18 @@ namespace PutinuLib.CommonView
         /// ボタンの領域からカーソルが出た時
         /// </summary>
         public IObservable<Unit> OnButtonExited => _buttonExitedSubject;
-        
+
+        /// <summary>
+        /// ボタンのアクティブ状態を持つReactiveProperty
+        /// </summary>
+        public IReadOnlyReactiveProperty<bool> IsActiveRP => _isActiveRP;
+
         private readonly Subject<Unit> _buttonClickedSubject = new();
         private readonly Subject<Unit> _buttonPressedSubject = new();
         private readonly Subject<Unit> _buttonReleasedSubject = new();
         private readonly Subject<Unit> _buttonEnteredSubject = new();
         private readonly Subject<Unit> _buttonExitedSubject = new();
+        private readonly ReactiveProperty<bool> _isActiveRP = new(true);
 
         protected virtual void OnDestroy()
         {
@@ -49,6 +54,19 @@ namespace PutinuLib.CommonView
             _buttonReleasedSubject.Dispose();
             _buttonEnteredSubject.Dispose();
             _buttonExitedSubject.Dispose();
+        }
+
+        /// <summary>
+        /// ボタンのアクティブ状態を取得する
+        /// </summary>
+        public bool IsActive() => _isActiveRP.Value;
+
+        /// <summary>
+        /// アクティブ状態を変更する
+        /// </summary>
+        public void SetActive(bool isActive)
+        {
+            _isActiveRP.Value = isActive;
         }
 
         public void OnPointerClick(PointerEventData eventData)
