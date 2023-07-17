@@ -42,9 +42,8 @@ namespace PutinuLib.CommonView
         private readonly Subject<Unit> _buttonEnteredSubject = new();
         private readonly Subject<Unit> _buttonExitedSubject = new();
 
-        private void OnDestroy()
+        protected virtual void OnDestroy()
         {
-            Debug.Log("[CustomButton]");
             _buttonClickedSubject.Dispose();
             _buttonPressedSubject.Dispose();
             _buttonReleasedSubject.Dispose();

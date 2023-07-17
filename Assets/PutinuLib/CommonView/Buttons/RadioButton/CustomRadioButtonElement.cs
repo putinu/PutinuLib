@@ -24,9 +24,9 @@ namespace PutinuLib.CommonView
 
         private bool _isSelected;
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
-            Debug.Log("[CustomRadioButtonElement]");
+            base.OnDestroy();
             _selectedSubject.Dispose();
         }
 
