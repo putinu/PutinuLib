@@ -5,7 +5,7 @@ namespace PutinuLib.CommonView
     /// <summary>
     /// ラジオボタンの各要素クラス
     /// </summary>
-    public class CustomRadioButtonElement : CustomButton
+    public class CustomSelectableButton : CustomButton
     {
         /// <summary>
         /// 選択状態かどうかを示すReactiveProperty

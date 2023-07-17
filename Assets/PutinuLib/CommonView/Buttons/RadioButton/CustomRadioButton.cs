@@ -10,7 +10,7 @@ namespace PutinuLib.CommonView
     public class CustomRadioButton : UIMonoBehaviour
     {
         [Header("それぞれの選択肢ボタン")]
-        [SerializeField] private CustomRadioButtonElement[] _buttons;
+        [SerializeField] private CustomSelectableButton[] _buttons;
 
         private int _beforeSelectedButtonIndex;
 
