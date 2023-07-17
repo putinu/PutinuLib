@@ -1,5 +1,6 @@
 using System;
 using UniRx;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace PutinuLib.CommonView
@@ -43,6 +44,7 @@ namespace PutinuLib.CommonView
 
         private void OnDestroy()
         {
+            Debug.Log("[CustomButton]");
             _buttonClickedSubject.Dispose();
             _buttonPressedSubject.Dispose();
             _buttonReleasedSubject.Dispose();
