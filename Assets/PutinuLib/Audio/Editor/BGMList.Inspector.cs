@@ -13,9 +13,10 @@ namespace PutinuLib.Audio.Editor
     [CustomEditor(typeof(BGMList))]
     public class BGMListInspector : UnityEditor.Editor
     {
-        private const string TemplateFilePass = "Assets/PutiJin/Common/Audio/BGM/BGMType_Template.txt";
-        private const string CsFilePass = "Assets/PutiJin/Common/Audio/BGM/BGMType.cs";
         private const string StartOfDefine = "// START_OF_DEFINE";
+        private bool _isSettingFoldoutOpened = false;
+        private TextAsset _templateFile;
+        private TextAsset _csFile;
         private ReorderableList _bgmList;
 
         private void OnEnable()
@@ -33,6 +34,15 @@ namespace PutinuLib.Audio.Editor
         {
             serializedObject.Update();
             
+            _isSettingFoldoutOpened = EditorGUILayout.BeginFoldoutHeaderGroup(_isSettingFoldoutOpened, "設定ファイル");
+            if (_isSettingFoldoutOpened)
+            {
+                _templateFile = (TextAsset) EditorGUILayout.ObjectField(
+                    "テンプレートファイル", _templateFile, typeof(TextAsset), false);
+                _csFile = (TextAsset) EditorGUILayout.ObjectField(
+                    "スクリプトファイル", _csFile, typeof(TextAsset), false);
+            }
+            EditorGUILayout.EndFoldoutHeaderGroup();
             _bgmList.DoLayoutList();
             if (GUILayout.Button("リストを更新"))
             {
@@ -44,7 +54,6 @@ namespace PutinuLib.Audio.Editor
 
         private void RefreshType()
         {
-            TextAsset bgmListTextAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(TemplateFilePass);
             StringBuilder audioNameBuilder = new();
             
             for (int i = 0; i < _bgmList.serializedProperty.arraySize; i++)
@@ -55,10 +64,11 @@ namespace PutinuLib.Audio.Editor
                 audioNameBuilder.Append(",\r        ");
             }
 
-            string replacedText = bgmListTextAsset.text
+            string replacedText = _templateFile.text
                 .Replace(StartOfDefine, audioNameBuilder.ToString());
 
-            File.WriteAllText(CsFilePass, replacedText);
+            string csFilePass = AssetDatabase.GetAssetPath(_csFile);
+            File.WriteAllText(csFilePass, replacedText);
             AssetDatabase.Refresh();
         }
     }
