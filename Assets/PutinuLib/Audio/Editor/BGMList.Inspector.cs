@@ -21,11 +21,12 @@ namespace PutinuLib.Audio.Editor
 
         private void OnEnable()
         {
+            ReattachSettingFile();
             _bgmList = new ReorderableList(serializedObject, serializedObject.FindProperty("_bgmList"));
             
             _bgmList.drawElementCallback = (rect, index, isActive, isFocused) =>
             {
-                var element = _bgmList.serializedProperty.GetArrayElementAtIndex(index);
+                SerializedProperty element = _bgmList.serializedProperty.GetArrayElementAtIndex(index);
                 EditorGUI.PropertyField(rect, element);
             };
         }
@@ -41,6 +42,10 @@ namespace PutinuLib.Audio.Editor
                     "テンプレートファイル", _templateFile, typeof(TextAsset), false);
                 _csFile = (TextAsset) EditorGUILayout.ObjectField(
                     "スクリプトファイル", _csFile, typeof(TextAsset), false);
+                if (GUILayout.Button("設定ファイルを再設定"))
+                {
+                    ReattachSettingFile();
+                }
             }
             EditorGUILayout.EndFoldoutHeaderGroup();
             _bgmList.DoLayoutList();
@@ -50,6 +55,14 @@ namespace PutinuLib.Audio.Editor
             }
             
             serializedObject.ApplyModifiedProperties();
+        }
+
+        private void ReattachSettingFile()
+        {
+            const string templateFilePass = "Assets/PutinuLib/Audio/Editor/BGMList.Template.txt";
+            const string csFilePass = "Assets/PutinuLib/Audio/Runtime/BGMType.cs";
+            _templateFile ??= AssetDatabase.LoadAssetAtPath<TextAsset>(templateFilePass);
+            _csFile ??= AssetDatabase.LoadAssetAtPath<TextAsset>(csFilePass);
         }
 
         private void RefreshType()
