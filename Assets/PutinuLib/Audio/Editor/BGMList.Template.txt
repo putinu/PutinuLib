@@ -1,4 +1,4 @@
-﻿﻿namespace PutinuLib.Audio
+﻿namespace PutinuLib.Audio
 {
     /// <summary>
     /// BGMの種類
