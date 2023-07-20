@@ -14,8 +14,6 @@ namespace PutinuLib.Audio
         /// <summary>
         /// 対象の種類のAudioClipを取得する
         /// </summary>
-        /// <param name="seType"></param>
-        /// <returns></returns>
         public AudioClip GetAudioClip(SEType seType)
         {
             int index = (int) seType;
