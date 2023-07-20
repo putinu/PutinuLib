@@ -21,6 +21,7 @@ namespace PutinuLib.Audio.Editor
         
         private void OnEnable()
         {
+            ReattachSettingFile();
             _seList = new ReorderableList(serializedObject, serializedObject.FindProperty("_seList"));
             
             _seList.drawElementCallback = (rect, index, isActive, isFocused) =>
@@ -41,6 +42,10 @@ namespace PutinuLib.Audio.Editor
                     "テンプレートファイル", _templateFile, typeof(TextAsset), false);
                 _csFile = (TextAsset) EditorGUILayout.ObjectField(
                     "スクリプトファイル", _csFile, typeof(TextAsset), false);
+                if (GUILayout.Button("設定ファイルを再設定"))
+                {
+                    ReattachSettingFile();
+                }
             }
             EditorGUILayout.EndFoldoutHeaderGroup();
             
@@ -51,6 +56,14 @@ namespace PutinuLib.Audio.Editor
             }
             
             serializedObject.ApplyModifiedProperties();
+        }
+        
+        private void ReattachSettingFile()
+        {
+            const string templateFilePass = "Assets/PutinuLib/Audio/Editor/SEList.Template.txt";
+            const string csFilePass = "Assets/PutinuLib/Audio/Runtime/SEType.cs";
+            _templateFile ??= AssetDatabase.LoadAssetAtPath<TextAsset>(templateFilePass);
+            _csFile ??= AssetDatabase.LoadAssetAtPath<TextAsset>(csFilePass);
         }
 
         private void RefreshType()
