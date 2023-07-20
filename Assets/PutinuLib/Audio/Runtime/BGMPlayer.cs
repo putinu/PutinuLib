@@ -7,7 +7,7 @@ namespace PutinuLib.Audio
     /// <summary>
     /// BGMを再生するクラス
     /// </summary>
-    public class BGMPlayer :MonoBehaviour
+    public class BGMPlayer : AudioPlayerSingleton<BGMPlayer>
     {
         private const float DefaultFadeTime = 0.4f;
         

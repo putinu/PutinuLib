@@ -6,7 +6,7 @@ namespace PutinuLib.Audio
     /// <summary>
     /// SEを再生するクラス
     /// </summary>
-    public class SEPlayer : MonoBehaviour
+    public class SEPlayer : AudioPlayerSingleton<SEPlayer>
     {
         [SerializeField] private AudioSource _audioSource;
         [SerializeField] private SEList _seList;
