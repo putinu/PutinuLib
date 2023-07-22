@@ -48,6 +48,11 @@ namespace PutinuLib.CommonView
         /// </summary>
         public void Initialize(CustomSelectableButton[] buttons)
         {
+            if (buttons.Length == 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(buttons), "ボタンの配列が空になっています");
+            }
+        
             _buttons = buttons;
             Initialize();
         }
