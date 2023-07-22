@@ -9,8 +9,6 @@ namespace PutinuLib.CommonView
     /// </summary>
     public class CustomRadioButton : UIMonoBehaviour
     {
-        // TODO: ボタン個数変更出来るようにしたいよな～ん
-        // SelectableButtonを外から入れれるような形にしてもいいかも
         [Header("それぞれの選択肢ボタン")]
         [SerializeField] private CustomSelectableButton[] _buttons;
 
