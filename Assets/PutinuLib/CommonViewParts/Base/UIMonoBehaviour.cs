@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace PutinuLib.CommonView
+namespace PutinuLib.CommonViewParts
 {
     /// <summary>
     /// UIであるMonoBehaviourが継承して使う

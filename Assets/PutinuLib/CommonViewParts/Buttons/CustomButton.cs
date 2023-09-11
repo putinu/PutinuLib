@@ -3,7 +3,7 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace PutinuLib.CommonView
+namespace PutinuLib.CommonViewParts
 {
     /// <summary>
     /// ボタン
