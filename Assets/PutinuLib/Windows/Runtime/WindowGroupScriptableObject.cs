@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PutinuLib.Windows.Editor
+namespace PutinuLib.Windows.Runtime
 {
     [CreateAssetMenu(menuName = "PutinuLib/Windows/WindowGroup")]
     public class WindowGroupScriptableObject : ScriptableObject
@@ -20,7 +20,7 @@ namespace PutinuLib.Windows.Editor
             };
         }
 
-        private Dictionary<Type, WindowType> WindowDictionary = new Dictionary<Type, WindowType>()
+        private readonly Dictionary<Type, WindowType> _windowDictionary = new Dictionary<Type, WindowType>()
         {
             // WINDOW_DICTIONARY_END
         };
@@ -28,7 +28,7 @@ namespace PutinuLib.Windows.Editor
         public TWindow GetWindowPrefab<TWindow>(Type type)
             where TWindow : WindowPresenterBase
         {
-            return GetWindowPrefab<TWindow>(WindowDictionary[type]);
+            return GetWindowPrefab<TWindow>(_windowDictionary[type]);
         }
     }
 

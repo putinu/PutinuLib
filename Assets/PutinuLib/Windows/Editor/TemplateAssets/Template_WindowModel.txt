@@ -1,0 +1,7 @@
+﻿namespace PutinuLib.Windows.Runtime
+{
+    public class Window_TEMPLATE_TITLEModel : WindowModelBase
+    {
+        
+    }
+}

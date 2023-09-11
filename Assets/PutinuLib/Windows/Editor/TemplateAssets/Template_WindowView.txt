@@ -1,0 +1,18 @@
+﻿using System.Collections.Generic;
+using UnityEngine;
+
+namespace PutinuLib.Windows.Runtime
+{
+    public class Window_TEMPLATE_TITLEViewDto
+    {
+        // TODO: Viewに渡す情報をここに書く
+    }
+    
+    public class Window_TEMPLATE_TITLEView : WindowViewBase
+    {
+        public void Initialize(Window_TEMPLATE_TITLEViewDto dto)
+        {
+            
+        }
+    }
+}
