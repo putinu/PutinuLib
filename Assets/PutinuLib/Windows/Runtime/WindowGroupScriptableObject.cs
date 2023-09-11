@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +7,7 @@ namespace PutinuLib.Windows.Runtime
     [CreateAssetMenu(menuName = "PutinuLib/Windows/WindowGroup")]
     public class WindowGroupScriptableObject : ScriptableObject
     {
+        [SerializeField] private WindowHogePresenter _hoge;
         // SERIALIZE_FIELD_END
 
         public TWindow GetWindowPrefab<TWindow>(WindowType windowType)
@@ -15,6 +16,7 @@ namespace PutinuLib.Windows.Runtime
             return windowType switch
             {
                 WindowType.None => null,
+                WindowType.Hoge => _hoge as TWindow,
                 // SWITCH_TYPE_END
                 _ => throw new ArgumentOutOfRangeException(nameof(windowType), windowType, null)
             };
@@ -22,6 +24,7 @@ namespace PutinuLib.Windows.Runtime
 
         private readonly Dictionary<Type, WindowType> _windowDictionary = new Dictionary<Type, WindowType>()
         {
+            {typeof(WindowHogePresenter), WindowType.Hoge},
             // WINDOW_DICTIONARY_END
         };
 
@@ -35,6 +38,7 @@ namespace PutinuLib.Windows.Runtime
     public enum WindowType
     {
         None = 0,
+        Hoge,
         // WINDOW_TYPE_END
     }
 }

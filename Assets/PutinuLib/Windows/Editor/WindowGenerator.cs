@@ -14,7 +14,7 @@ namespace PutinuLib.Windows.Editor
         private string _windowSmallName;
         private string _description;
         private TextAsset _windowGroupScript;
-        private string _baseFilePass = "Assets/PutinuLib/Windows/Runtime/WindowList";
+        private string _baseFilePass = "Assets/PutinuLib/Windows/Runtime";
 
         [MenuItem("PutinuLib/Window/WindowGenerator")]
         private static void OpenWindowGenerator()
@@ -46,7 +46,7 @@ namespace PutinuLib.Windows.Editor
 
         private void Generate()
         {
-            var filePath = $"{_baseFilePass}/{_windowName}";
+            var filePath = $"{_baseFilePass}/WindowList/{_windowName}";
             Directory.CreateDirectory(filePath);
 
             var presenterFilePath = $"{filePath}/Window{_windowName}Presenter.cs";
