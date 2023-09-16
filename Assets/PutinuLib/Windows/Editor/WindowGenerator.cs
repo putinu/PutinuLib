@@ -134,7 +134,7 @@ namespace PutinuLib.Windows.Editor
 
         private void AddWindowGroup()
         {
-            var filePath = $"{_baseFilePass}/WindowGroupScriptableObject.cs";
+            var filePath = AssetDatabase.GetAssetPath(_windowGroupData);
             var windowGroupTextAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(filePath);
 
             if (windowGroupTextAsset.text.Contains(_windowName)) return;
