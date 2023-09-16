@@ -10,19 +10,12 @@ namespace PutinuLib.Windows.Editor
     public class PermanentWindowGeneratorData : ScriptableObject
     {
         [SerializeField] private string _windowNamespace = "App";
-        [SerializeField] private WindowGroupScriptableObject _windowGroupData;
         [SerializeField] private DefaultAsset _baseFilePassFolder;
 
         public string WindowNamespace
         {
             get => _windowNamespace;
             set => _windowNamespace = value;
-        }
-        
-        public WindowGroupScriptableObject WindowGroupData
-        {
-            get => _windowGroupData;
-            set => _windowGroupData = value;
         }
 
         public DefaultAsset BaseFilePassFolder

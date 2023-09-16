@@ -16,7 +16,6 @@ namespace PutinuLib.Windows.Editor
         private string _windowName;
         private string _windowSmallName;
         private string _description;
-        private WindowGroupScriptableObject _windowGroupData;
         private string _baseFilePass;
         private DefaultAsset _baseFilePassFolder;
 
@@ -40,22 +39,18 @@ namespace PutinuLib.Windows.Editor
             EditorGUI.BeginChangeCheck();
             
             _windowNamespace = _permanentWindowGeneratorData.WindowNamespace;
-            _windowGroupData = _permanentWindowGeneratorData.WindowGroupData;
             _baseFilePassFolder = _permanentWindowGeneratorData.BaseFilePassFolder;
             
             _windowNamespace = EditorGUILayout.TextField("ウィンドウの名前空間", _windowNamespace);
             _windowName = EditorGUILayout.TextField("ウィンドウ名", _windowName);
             _windowSmallName = EditorGUILayout.TextField("private変数名(_abc)", _windowSmallName);
             _description = EditorGUILayout.TextField("説明", _description);
-            _windowGroupData = (WindowGroupScriptableObject) EditorGUILayout.ObjectField(
-                "ウィンドウデータ", _windowGroupData, typeof(WindowGroupScriptableObject), false);
             _baseFilePassFolder = (DefaultAsset) EditorGUILayout.ObjectField
                 ("格納する親ディレクトリ", _baseFilePassFolder, typeof(DefaultAsset), false);
             
             if (EditorGUI.EndChangeCheck())
             {
                 _permanentWindowGeneratorData.WindowNamespace = _windowNamespace;
-                _permanentWindowGeneratorData.WindowGroupData = _windowGroupData;
                 _permanentWindowGeneratorData.BaseFilePassFolder = _baseFilePassFolder;
                 EditorUtility.SetDirty(_permanentWindowGeneratorData);
             }
@@ -65,8 +60,7 @@ namespace PutinuLib.Windows.Editor
             
             bool canGenerate = 
                 _baseFilePassFolder != null && !string.IsNullOrEmpty(_windowName)
-                && !string.IsNullOrEmpty(_windowSmallName) && !string.IsNullOrEmpty(_windowNamespace)
-                && _windowGroupData != null;
+                && !string.IsNullOrEmpty(_windowSmallName) && !string.IsNullOrEmpty(_windowNamespace);
             string buttonText = canGenerate ? "ウィンドウ作成" : "入力が不十分です";
             using (new EditorGUI.DisabledScope(!canGenerate))
             {
@@ -133,7 +127,7 @@ namespace PutinuLib.Windows.Editor
 
         private void AddWindowGroup()
         {
-            var filePath = AssetDatabase.GetAssetPath(_windowGroupData);
+            var filePath = "Assets/PutinuLib/Windows/Runtime/WindowGroupScriptableObject.cs";
             var windowGroupTextAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(filePath);
 
             if (windowGroupTextAsset.text.Contains(_windowName)) return;
