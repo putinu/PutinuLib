@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using PutinuLib.Windows.Runtime;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Windows;
 using File = System.IO.File;
@@ -10,11 +11,13 @@ namespace PutinuLib.Windows.Editor
     /// </summary>
     public class WindowGenerator : EditorWindow
     {
+        [SerializeField] private PermanentWindowGeneratorData _permanentWindowGeneratorData;
+        
         private string _windowName;
         private string _windowSmallName;
         private string _description;
-        private TextAsset _windowGroupScript;
-        private string _baseFilePass = "Assets/PutinuLib/Windows/Runtime";
+        private WindowGroupScriptableObject _windowGroupData;
+        private string _baseFilePass;
         private DefaultAsset _baseFilePassFolder;
 
         [MenuItem("PutinuLib/Window/WindowGenerator")]
@@ -29,16 +32,39 @@ namespace PutinuLib.Windows.Editor
         /// </summary>
         private void OnGUI()
         {
+            if (_permanentWindowGeneratorData == null)
+            {
+                _permanentWindowGeneratorData = LoadPermanentData();
+            }
+
             _windowName = EditorGUILayout.TextField("ウィンドウ名", _windowName);
             _windowSmallName = EditorGUILayout.TextField("private変数名(_abc)", _windowSmallName);
             _description = EditorGUILayout.TextField("説明", _description);
+            
+            // 以下２つのフィールドはPermanentWindowGeneratorDataから読み込み、変更があれば保存される
+            EditorGUI.BeginChangeCheck();
+            
+            _windowGroupData = _permanentWindowGeneratorData.WindowGroupData;
+            _baseFilePassFolder = _permanentWindowGeneratorData.BaseFilePassFolder;
+            
+            _windowGroupData = (WindowGroupScriptableObject) EditorGUILayout.ObjectField(
+                "WindowGroupData", _windowGroupData, typeof(WindowGroupScriptableObject), false);
             _baseFilePassFolder = (DefaultAsset) EditorGUILayout.ObjectField
                 ("格納する親ディレクトリ", _baseFilePassFolder, typeof(DefaultAsset), false);
-            _baseFilePass = AssetDatabase.GetAssetPath(_baseFilePassFolder);
-            EditorGUILayout.LabelField("格納先", _baseFilePass);
             
-            bool canGenerate = _baseFilePassFolder != null;
-            string buttonText = canGenerate ? "ウィンドウ作成" : "親ディレクトリを選択してください";
+            if (EditorGUI.EndChangeCheck())
+            {
+                _permanentWindowGeneratorData.WindowGroupData = _windowGroupData;
+                _permanentWindowGeneratorData.BaseFilePassFolder = _baseFilePassFolder;
+                EditorUtility.SetDirty(_permanentWindowGeneratorData);
+            }
+            
+            _baseFilePass = AssetDatabase.GetAssetPath(_baseFilePassFolder);
+            EditorGUILayout.LabelField("格納先", _baseFilePass, EditorStyles.wordWrappedLabel);
+            
+            bool canGenerate = _baseFilePassFolder != null && !string.IsNullOrEmpty(_windowName)
+                && !string.IsNullOrEmpty(_windowSmallName) && _windowGroupData != null;
+            string buttonText = canGenerate ? "ウィンドウ作成" : "入力が不十分です";
             using (new EditorGUI.DisabledScope(!canGenerate))
             {
                 if (!GUILayout.Button(buttonText)) return;
@@ -48,6 +74,15 @@ namespace PutinuLib.Windows.Editor
                 AssetDatabase.Refresh();
             }
         }
+        
+        /// <summary>
+        /// データをロードする
+        /// </summary>
+        private PermanentWindowGeneratorData LoadPermanentData()
+        {
+            return AssetDatabase.LoadAssetAtPath<PermanentWindowGeneratorData>
+                ("Assets/PutinuLib/Windows/Editor/PermanentWindowGeneratorData.asset");
+        }
 
         private const string TemplatePath = "Assets/PutinuLib/Windows/Editor/TemplateAssets";
         private const string TemplateTitleKey = "_TEMPLATE_TITLE";
@@ -55,7 +90,7 @@ namespace PutinuLib.Windows.Editor
 
         private void Generate()
         {
-            var filePath = $"{_baseFilePass}/WindowList/{_windowName}";
+            var filePath = $"{_baseFilePass}/{_windowName}";
             Directory.CreateDirectory(filePath);
 
             var presenterFilePath = $"{filePath}/Window{_windowName}Presenter.cs";
