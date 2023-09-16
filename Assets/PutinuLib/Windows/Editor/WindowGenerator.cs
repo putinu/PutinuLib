@@ -48,7 +48,7 @@ namespace PutinuLib.Windows.Editor
             _baseFilePassFolder = _permanentWindowGeneratorData.BaseFilePassFolder;
             
             _windowGroupData = (WindowGroupScriptableObject) EditorGUILayout.ObjectField(
-                "WindowGroupData", _windowGroupData, typeof(WindowGroupScriptableObject), false);
+                "ウィンドウデータ", _windowGroupData, typeof(WindowGroupScriptableObject), false);
             _baseFilePassFolder = (DefaultAsset) EditorGUILayout.ObjectField
                 ("格納する親ディレクトリ", _baseFilePassFolder, typeof(DefaultAsset), false);
             
