@@ -2,7 +2,7 @@
     "name": "Audio",
     "rootNamespace": "",
     "references": [
-        "GUID:2bfa013d6bca696439e29d016b2955fa"
+        "DOTween.Modules"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
