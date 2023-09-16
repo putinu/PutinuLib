@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PutinuLib.Windows.Runtime
+namespace PutinuLib.Windows
 {
     [CreateAssetMenu(menuName = "PutinuLib/Windows/WindowGroup")]
     public class WindowGroupScriptableObject : ScriptableObject

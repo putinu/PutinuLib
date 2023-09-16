@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PutinuLib.Windows.Runtime
+namespace PutinuLib.Windows
 {
     public class WindowModelBase : IDisposable
     {

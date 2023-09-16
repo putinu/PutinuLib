@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace PutinuLib.Windows.Runtime
+namespace PutinuLib.Windows
 {
     /// <summary>
     /// めちゃくちゃ苦肉の策（クソコードなのでどうにかしたい）

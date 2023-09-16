@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PutinuLib.Windows.Runtime
+namespace PutinuLib.Windows
 {
     /// <summary>
     /// ウィンドウ周りのサービスを提供してくれる

@@ -1,7 +1,7 @@
 ﻿using DG.Tweening;
 using UnityEngine;
 
-namespace PutinuLib.Windows.Runtime
+namespace PutinuLib.Windows
 {
     [RequireComponent(typeof(CanvasGroup))]
     public abstract class WindowViewBase : MonoBehaviour

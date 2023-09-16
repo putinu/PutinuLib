@@ -1,4 +1,4 @@
-﻿using PutinuLib.Windows.Runtime;
+﻿using PutinuLib.Windows;
 
 namespace _TEMPLATE_NAMESPACE
 {
