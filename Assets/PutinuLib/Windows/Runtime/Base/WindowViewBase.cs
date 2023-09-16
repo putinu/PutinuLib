@@ -1,5 +1,4 @@
-﻿using DG.Tweening;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace PutinuLib.Windows
 {
@@ -9,9 +8,6 @@ namespace PutinuLib.Windows
         [SerializeField] private CanvasGroup _canvasGroup;
 
         protected CanvasGroup CanvasGroup => _canvasGroup;
-        protected bool CanInput { get; private set; }
-        
-        protected const float TransitionTime = 0.4f;
 
         public void InitializeBase()
         {
@@ -20,30 +16,17 @@ namespace PutinuLib.Windows
         /// <summary>
         /// ウィンドウを開ける
         /// </summary>
-        public void OpenWindow()
+        public virtual void OpenWindow()
         {
-            CanInput = false;
-
-            // 開ける処理をカスタマイズしたければここをいじる
-            _canvasGroup.alpha = 0;
-            _canvasGroup.DOFade(1, TransitionTime)
-                .OnComplete(() => CanInput = true);
+            _canvasGroup.alpha = 1;
         }
 
         /// <summary>
         /// ウィンドウを閉じる
         /// </summary>
-        public void CloseWindow()
+        public virtual void CloseWindow()
         {
-            CanInput = false;
-            
-            // 閉じる処理をカスタマイズしたければここをいじる
-            _canvasGroup.DOFade(0, TransitionTime)
-                .OnComplete(() =>
-                {
-                    CanInput = true;
-                    Destroy(this.gameObject);
-                });
+            _canvasGroup.alpha = 0;
         }
 
 #if UNITY_EDITOR
