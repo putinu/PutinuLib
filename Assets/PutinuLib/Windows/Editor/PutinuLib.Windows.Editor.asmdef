@@ -1,0 +1,18 @@
+{
+    "name": "PutinuLib.Windows.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:be191caf3dfb7c84f9045fced0706637"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
