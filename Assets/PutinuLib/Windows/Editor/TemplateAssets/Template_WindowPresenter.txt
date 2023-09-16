@@ -1,0 +1,21 @@
+﻿using PutinuLib.Windows;
+
+namespace _TEMPLATE_NAMESPACE
+{
+    public class Window_TEMPLATE_TITLEPresenterDto
+    {
+        // データの受け渡しに必要な情報を入れる
+    }
+    
+    /// <summary>
+    /// _TEMPLATE_DESCRIPTION
+    /// </summary>
+    public class Window_TEMPLATE_TITLEPresenter
+        : WindowPresenterBase<Window_TEMPLATE_TITLEModel, Window_TEMPLATE_TITLEView>
+    {
+        public void Initialize(Window_TEMPLATE_TITLEPresenterDto dto)
+        {
+        
+        }
+    }
+}

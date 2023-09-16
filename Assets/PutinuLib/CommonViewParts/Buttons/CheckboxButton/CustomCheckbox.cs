@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 
-namespace PutinuLib.CommonView
+namespace PutinuLib.CommonViewParts
 {
     /// <summary>
     /// 複数のボタンから複数選択できるもの（チェックボックス）

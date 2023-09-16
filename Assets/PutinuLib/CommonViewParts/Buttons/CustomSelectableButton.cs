@@ -1,6 +1,6 @@
 ﻿using UniRx;
 
-namespace PutinuLib.CommonView
+namespace PutinuLib.CommonViewParts
 {
     /// <summary>
     /// ラジオボタンの各要素クラス
