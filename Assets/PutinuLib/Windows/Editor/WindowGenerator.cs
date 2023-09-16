@@ -12,7 +12,8 @@ namespace PutinuLib.Windows.Editor
     public class WindowGenerator : EditorWindow
     {
         [SerializeField] private PermanentWindowGeneratorData _permanentWindowGeneratorData;
-        
+
+        private string _windowNamespace;
         private string _windowName;
         private string _windowSmallName;
         private string _description;
@@ -37,16 +38,16 @@ namespace PutinuLib.Windows.Editor
                 _permanentWindowGeneratorData = LoadPermanentData();
             }
 
-            _windowName = EditorGUILayout.TextField("ウィンドウ名", _windowName);
-            _windowSmallName = EditorGUILayout.TextField("private変数名(_abc)", _windowSmallName);
-            _description = EditorGUILayout.TextField("説明", _description);
-            
-            // 以下２つのフィールドはPermanentWindowGeneratorDataから読み込み、変更があれば保存される
             EditorGUI.BeginChangeCheck();
             
+            _windowNamespace = _permanentWindowGeneratorData.WindowNamespace;
             _windowGroupData = _permanentWindowGeneratorData.WindowGroupData;
             _baseFilePassFolder = _permanentWindowGeneratorData.BaseFilePassFolder;
             
+            _windowNamespace = EditorGUILayout.TextField("ウィンドウの名前空間", _windowNamespace);
+            _windowName = EditorGUILayout.TextField("ウィンドウ名", _windowName);
+            _windowSmallName = EditorGUILayout.TextField("private変数名(_abc)", _windowSmallName);
+            _description = EditorGUILayout.TextField("説明", _description);
             _windowGroupData = (WindowGroupScriptableObject) EditorGUILayout.ObjectField(
                 "ウィンドウデータ", _windowGroupData, typeof(WindowGroupScriptableObject), false);
             _baseFilePassFolder = (DefaultAsset) EditorGUILayout.ObjectField
@@ -54,6 +55,7 @@ namespace PutinuLib.Windows.Editor
             
             if (EditorGUI.EndChangeCheck())
             {
+                _permanentWindowGeneratorData.WindowNamespace = _windowNamespace;
                 _permanentWindowGeneratorData.WindowGroupData = _windowGroupData;
                 _permanentWindowGeneratorData.BaseFilePassFolder = _baseFilePassFolder;
                 EditorUtility.SetDirty(_permanentWindowGeneratorData);
@@ -62,8 +64,10 @@ namespace PutinuLib.Windows.Editor
             _baseFilePass = AssetDatabase.GetAssetPath(_baseFilePassFolder);
             EditorGUILayout.LabelField("格納先", _baseFilePass, EditorStyles.wordWrappedLabel);
             
-            bool canGenerate = _baseFilePassFolder != null && !string.IsNullOrEmpty(_windowName)
-                && !string.IsNullOrEmpty(_windowSmallName) && _windowGroupData != null;
+            bool canGenerate = 
+                _baseFilePassFolder != null && !string.IsNullOrEmpty(_windowName)
+                && !string.IsNullOrEmpty(_windowSmallName) && !string.IsNullOrEmpty(_windowNamespace)
+                && _windowGroupData != null;
             string buttonText = canGenerate ? "ウィンドウ作成" : "入力が不十分です";
             using (new EditorGUI.DisabledScope(!canGenerate))
             {
@@ -85,6 +89,7 @@ namespace PutinuLib.Windows.Editor
         }
 
         private const string TemplatePath = "Assets/PutinuLib/Windows/Editor/TemplateAssets";
+        private const string TemplateNamespaceKey = "_TEMPLATE_NAMESPACE";
         private const string TemplateTitleKey = "_TEMPLATE_TITLE";
         private const string TemplateDescriptionKey = "_TEMPLATE_DESCRIPTION";
 
@@ -117,6 +122,7 @@ namespace PutinuLib.Windows.Editor
         private string ReplaceFromText(TextAsset textAsset)
         {
             return textAsset.text
+                .Replace(TemplateNamespaceKey, _windowNamespace)
                 .Replace(TemplateTitleKey, _windowName)
                 .Replace(TemplateDescriptionKey, _description);
         }

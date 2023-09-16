@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41f3494bd9c9433998ab31689e044dde, type: 3}
   m_Name: PermanentWindowGeneratorData
   m_EditorClassIdentifier: 
-  _windowGroupData: {fileID: 0}
-  _baseFilePassFolder: {fileID: 0}
+  _windowNamespace: PutinuLib.Windows
+  _windowGroupData: {fileID: 11400000, guid: 5c9478338d61a174cbaf97e1c01c446a, type: 2}
+  _baseFilePassFolder: {fileID: 102900000, guid: 3d6ee016d834414bbc16bd79205f6731, type: 3}

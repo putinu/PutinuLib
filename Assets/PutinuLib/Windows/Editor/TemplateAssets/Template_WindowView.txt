@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using PutinuLib.Windows.Runtime;
 
-namespace PutinuLib.Windows.Runtime
+namespace _TEMPLATE_NAMESPACE
 {
     public class Window_TEMPLATE_TITLEViewDto
     {

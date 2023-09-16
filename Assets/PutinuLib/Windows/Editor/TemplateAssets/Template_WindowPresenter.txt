@@ -1,4 +1,6 @@
-﻿namespace PutinuLib.Windows.Runtime
+﻿using PutinuLib.Windows.Runtime;
+
+namespace _TEMPLATE_NAMESPACE
 {
     public class Window_TEMPLATE_TITLEPresenterDto
     {
