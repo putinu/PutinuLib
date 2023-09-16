@@ -15,6 +15,7 @@ namespace PutinuLib.Windows.Editor
         private string _description;
         private TextAsset _windowGroupScript;
         private string _baseFilePass = "Assets/PutinuLib/Windows/Runtime";
+        private DefaultAsset _baseFilePassFolder;
 
         [MenuItem("PutinuLib/Window/WindowGenerator")]
         private static void OpenWindowGenerator()
@@ -31,9 +32,17 @@ namespace PutinuLib.Windows.Editor
             _windowName = EditorGUILayout.TextField("ウィンドウ名", _windowName);
             _windowSmallName = EditorGUILayout.TextField("private変数名(_abc)", _windowSmallName);
             _description = EditorGUILayout.TextField("説明", _description);
-            _baseFilePass = EditorGUILayout.TextField("親ディレクトリ", _baseFilePass);
-            if (GUILayout.Button("Generate"))
+            _baseFilePassFolder = (DefaultAsset) EditorGUILayout.ObjectField
+                ("格納する親ディレクトリ", _baseFilePassFolder, typeof(DefaultAsset), false);
+            _baseFilePass = AssetDatabase.GetAssetPath(_baseFilePassFolder);
+            EditorGUILayout.LabelField("格納先", _baseFilePass);
+            
+            bool canGenerate = _baseFilePassFolder != null;
+            string buttonText = canGenerate ? "ウィンドウ作成" : "親ディレクトリを選択してください";
+            using (new EditorGUI.DisabledScope(!canGenerate))
             {
+                if (!GUILayout.Button(buttonText)) return;
+                
                 Generate();
                 AddWindowGroup(); 
                 AssetDatabase.Refresh();
