@@ -8,20 +8,20 @@ namespace PutinuLib.CommonViewParts
     /// <summary>
     /// 複数のボタンから複数選択できるもの（チェックボックス）
     /// </summary>
-    public class CustomCheckbox : UIMonoBehaviour
+    public class CustomCheckbox : MonoBehaviour
     {
         [Header("それぞれの選択肢ボタン")]
-        [SerializeField] private CustomSelectableButton[] _buttons;
+        [SerializeField] private CustomSelectableButton[] _buttons = Array.Empty<CustomSelectableButton>();
 
         private bool[] _activeIndexArray;
 
         /// <summary>
-        /// ボタンがアクティブ状態になった時にindexを返す
+        /// ボタンがアクティブ状態になった時に対象indexを返す
         /// </summary>
         public IObservable<int> OnButtonActivated => _buttonActivatedSubject;
         
         /// <summary>
-        /// ボタンが非アクティブ状態になった時にindexを返す
+        /// ボタンが非アクティブ状態になった時に対象indexを返す
         /// </summary>
         public IObservable<int> OnButtonDeactivated => _buttonDeactivatedSubject;
         
@@ -50,7 +50,7 @@ namespace PutinuLib.CommonViewParts
         {
             if (buttons.Length == 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(buttons), "ボタンの配列が空になっています");
+                throw new ArgumentOutOfRangeException();
             }
         
             _buttons = buttons;
@@ -74,24 +74,7 @@ namespace PutinuLib.CommonViewParts
                 _buttonDeactivatedSubject?.OnNext(targetIndex);
             }
         }
-
-        private void SetEvent()
-        {
-            for (int i = 0; i < _buttons.Length; i++)
-            {
-                // for文内でindexとして再定義しないと、イベント実行時のiの値がオーバーするため
-                int index = i;
-                _buttons[index].OnButtonClicked
-                    .Subscribe(_ => SwitchButtonActive(index))
-                    .AddTo(this.gameObject);
-            }
-        }
-
-        private void SwitchButtonActive(int targetIndex)
-        {
-            SetButtonActive(targetIndex, !_activeIndexArray[targetIndex]);
-        }
-
+        
         /// <summary>
         /// それぞれの選択肢が選択されているかのリストを返す
         /// </summary>
@@ -103,9 +86,35 @@ namespace PutinuLib.CommonViewParts
         /// <summary>
         /// 対象のボタンが選択されているかどうか
         /// </summary>
-        public bool IsButtonSelected(int targetIndex)
+        public bool GetIsSelected(int targetIndex)
         {
             return _activeIndexArray[targetIndex];
         }
+
+        private void SetEvent()
+        {
+            for (int i = 0; i < _buttons.Length; i++)
+            {
+                int index = i;
+                _buttons[index].OnButtonClicked
+                    .Subscribe(_ => SwitchButtonActive(index))
+                    .AddTo(this.gameObject);
+            }
+        }
+
+        private void SwitchButtonActive(int targetIndex)
+        {
+            SetButtonActive(targetIndex, !_activeIndexArray[targetIndex]);
+        }
+        
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            if (_buttons.Length == 0)
+            {
+                _buttons = transform.GetComponentsInChildren<CustomSelectableButton>();
+            }
+        }
+#endif
     }
 }

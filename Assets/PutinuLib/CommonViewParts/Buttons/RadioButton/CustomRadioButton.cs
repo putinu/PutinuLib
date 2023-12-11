@@ -1,22 +1,21 @@
 ﻿using System;
-using PutinuLib.CommonViewParts;
 using UniRx;
 using UnityEngine;
 
-namespace PutinuLib.CommonView
+namespace PutinuLib.CommonViewParts.RadioButton
 {
     /// <summary>
     /// 複数のボタンから１つだけを選択できるもの（ラジオボタン）
     /// </summary>
-    public class CustomRadioButton : UIMonoBehaviour
+    public class CustomRadioButton : MonoBehaviour
     {
         [Header("それぞれの選択肢ボタン")]
-        [SerializeField] private CustomSelectableButton[] _buttons;
+        [SerializeField] private CustomSelectableButton[] _buttons = Array.Empty<CustomSelectableButton>();
 
         private int _beforeSelectedButtonIndex;
         
         /// <summary>
-        /// ボタンがアクティブ状態になった時にindexを返す
+        /// ボタンがアクティブ状態になった時に対象indexを返す
         /// </summary>
         public IObservable<int> OnButtonActivated => _buttonActivatedSubject;
         private readonly Subject<int> _buttonActivatedSubject = new();
@@ -50,12 +49,27 @@ namespace PutinuLib.CommonView
             _buttons = buttons;
             Initialize(startIndex);
         }
+        
+        /// <summary>
+        /// 対象のボタンが選択されているかどうか
+        /// </summary>
+        public bool GetIsSelected(int targetIndex)
+        {
+            return _buttons[targetIndex].IsSelectedRP.Value;
+        }
+        
+        /// <summary>
+        /// 現在選択されているボタンのindexを取得する
+        /// </summary>
+        public int GetSelectedButtonIndex()
+        {
+            return _beforeSelectedButtonIndex;
+        }
 
         private void SetEvent()
         {
             for (int i = 0; i < _buttons.Length; i++)
             {
-                // for文内でindexとして再定義しないと、イベント実行時のiの値がオーバーするため
                 int index = i;
                 _buttons[index].OnButtonClicked
                     .Subscribe(_ => OnAnyButtonSelected(index))
@@ -73,6 +87,7 @@ namespace PutinuLib.CommonView
         private void Activate(int targetIndex)
         {
             _buttons[targetIndex].SetSelected(true);
+            _buttonActivatedSubject?.OnNext(targetIndex);
         }
 
         private void Deactivate(int targetIndex)
@@ -80,12 +95,14 @@ namespace PutinuLib.CommonView
             _buttons[targetIndex].SetSelected(false);
         }
 
-        /// <summary>
-        /// 対象のボタンが選択されているかどうか
-        /// </summary>
-        public bool IsButtonSelected(int targetIndex)
+#if UNITY_EDITOR
+        private void OnValidate()
         {
-            return _buttons[targetIndex].IsSelectedRP.Value;
+            if (_buttons.Length == 0)
+            {
+                _buttons = transform.GetComponentsInChildren<CustomSelectableButton>();
+            }
         }
+#endif
     }
 }
